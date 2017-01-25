@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">FindMe</string>
+    <string name="search_hint">Cerca un oggetto...</string>
+</resources>
