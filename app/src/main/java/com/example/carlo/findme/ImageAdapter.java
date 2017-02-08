@@ -59,8 +59,7 @@ public class ImageAdapter extends BaseAdapter {
 
 //Invalidate
 
-    // references to our images //POSSO PRENDERE I RIFERIMENTI DALLE RIGHE DI UN FILE RIEMPIENDO L'ARRAY AD OGNI LETTURA
-    //usare una struttura dati dinamica in cui oltre a queste immagini posso aggiungere le nuove immagini scattate
+
     private Integer[] mThumbIds = {
             R.drawable.image_1_tn,
             R.drawable.image_2_tn,
@@ -74,13 +73,14 @@ public class ImageAdapter extends BaseAdapter {
             R.drawable.image_2_tn,
             R.drawable.image_3_tn,
             R.drawable.image_4_tn
-    };
+    }; /*questa merda si può buttare appena si sostituisce il contenuto del metodo getCount() definito in alto
+    magari si può rimpiazzare con la lista di oggetti o posti salvati*/
 
     private Bitmap loadImageFromStorage(String path)
     {
         Bitmap b=null;
         try {
-            File f=new File(path, "profile.jpg");
+            File f=new File(path, "place.jpg");
             b = BitmapFactory.decodeStream(new FileInputStream(f));
 
 

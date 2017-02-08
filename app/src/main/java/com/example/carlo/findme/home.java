@@ -3,6 +3,7 @@ package com.example.carlo.findme;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -23,9 +24,11 @@ import android.widget.GridView;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.example.carlo.findme.R.id.bitmapView;
 import static com.example.carlo.findme.R.id.gridView;
 import static com.example.carlo.findme.R.id.home;
 
@@ -76,12 +79,7 @@ public class home extends AppCompatActivity {
 
             /** Devo passare l'immagine alla classe ImageAdapter per settarla nella griglia **/
 
-
-
-            Intent intent = new Intent();
-            intent.setClass(home.this, PhotoManagement.class); /* <------------------ Qui passo all'activity che permette la gestione delle foto */
-            intent.putExtra("Bitmap", imageBitmap);
-            startActivity(intent);
+            saveToInternalStorage(imageBitmap);
         }
     }
 
@@ -92,6 +90,31 @@ public class home extends AppCompatActivity {
         MenuItem searchItem = menu.findItem(R.id.action_search);
 
         return  super.onCreateOptionsMenu(menu);
+    }
+
+    private String saveToInternalStorage(Bitmap bitmapImage){
+        ContextWrapper cw = new ContextWrapper(getApplicationContext()); // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        //File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+
+        // Create imageDir
+        File mypath=new File(directory,"place.jpg");
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return directory.getAbsolutePath();
     }
 
 }
